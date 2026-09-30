@@ -1,0 +1,19 @@
+name: Meeting notes regression tests
+on:
+  push:
+    paths: ['tools/meeting-notes/**', '.github/workflows/meeting-notes-tests.yml']
+  pull_request:
+    paths: ['tools/meeting-notes/**', '.github/workflows/meeting-notes-tests.yml']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tools/meeting-notes/tests -v
+        env:
+          PYTHONPATH: tools/meeting-notes

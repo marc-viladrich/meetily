@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+TASK_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
+if [ ! -x "$TASK_ROOT/.venv-meeting-notes/bin/python" ]; then
+  printf '%s\n' 'Run tools/meeting-notes/setup.sh first.' >&2
+  exit 1
+fi
+PYTHONPATH="$TASK_ROOT/tools/meeting-notes${PYTHONPATH:+:$PYTHONPATH}" \
+  exec "$TASK_ROOT/.venv-meeting-notes/bin/python" -m meeting_notes.cli "$@"
