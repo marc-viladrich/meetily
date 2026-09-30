@@ -664,6 +664,7 @@ async fn run_import<R: Runtime>(
         warn!("Failed to write metadata.json: {}", e);
     }
 
+    crate::speakers::after_save(app.clone(), meeting_id.clone());
     emit_progress(&app, "complete", 100, "Import complete");
 
     Ok(ImportResult {

@@ -9,6 +9,7 @@ import { TranscriptSettings } from '@/components/TranscriptSettings';
 import { RecordingSettings } from '@/components/RecordingSettings';
 import { PreferenceSettings } from '@/components/PreferenceSettings';
 import { SummaryModelSettings } from '@/components/SummaryModelSettings';
+import { SpeakerSettings } from '@/components/SpeakerSettings';
 import { BetaSettings } from '@/components/BetaSettings';
 import { useConfig } from '@/contexts/ConfigContext';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -114,6 +115,7 @@ export default function SettingsPage() {
             </TabsContent>
             <TabsContent value="recording">
               <RecordingSettings />
+              <div className="mt-6"><SpeakerSettings /></div>
             </TabsContent>
             <TabsContent value="Transcriptionmodels">
               <TranscriptSettings

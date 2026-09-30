@@ -75,7 +75,7 @@ impl MeetingsRepository {
         if let Some(meeting) = meeting {
             // Get all transcripts for this meeting
             let transcripts =
-                sqlx::query_as::<_, Transcript>("SELECT * FROM transcripts WHERE meeting_id = ?")
+                sqlx::query_as::<_, Transcript>("SELECT t.*, l.name AS speaker_name FROM transcripts t LEFT JOIN speaker_labels l ON l.meeting_id = t.meeting_id AND l.speaker = t.speaker WHERE t.meeting_id = ?")
                     .bind(meeting_id)
                     .fetch_all(&mut *transaction)
                     .await?;
@@ -92,6 +92,8 @@ impl MeetingsRepository {
                     audio_start_time: t.audio_start_time,
                     audio_end_time: t.audio_end_time,
                     duration: t.duration,
+                    speaker: t.speaker,
+                    speaker_name: t.speaker_name,
                 })
                 .collect::<Vec<_>>();
 
@@ -151,9 +153,10 @@ impl MeetingsRepository {
 
         // Get paginated transcripts ordered by audio_start_time
         let transcripts = sqlx::query_as::<_, Transcript>(
-            "SELECT * FROM transcripts
-             WHERE meeting_id = ?
-             ORDER BY audio_start_time ASC
+            "SELECT t.*, l.name AS speaker_name FROM transcripts t
+             LEFT JOIN speaker_labels l ON l.meeting_id = t.meeting_id AND l.speaker = t.speaker
+             WHERE t.meeting_id = ?
+             ORDER BY t.audio_start_time ASC
              LIMIT ? OFFSET ?"
         )
         .bind(meeting_id)

@@ -5,6 +5,8 @@ export interface Message {
 }
 
 export interface Transcript {
+  speaker?: string | null;
+  speaker_name?: string | null;
   id: string;
   text: string;
   timestamp: string; // Wall-clock time (e.g., "14:30:05")
@@ -136,6 +138,8 @@ export interface PaginatedTranscriptsResponse {
 
 // Transcript segment data for virtualized display
 export interface TranscriptSegmentData {
+  speaker?: string | null;
+  speaker_name?: string | null;
   id: string;
   timestamp: number; // audio_start_time in seconds
   endTime?: number; // audio_end_time in seconds

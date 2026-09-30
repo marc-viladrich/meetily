@@ -4,6 +4,7 @@ import { Transcript, TranscriptSegmentData } from '@/types';
 import { TranscriptView } from '@/components/TranscriptView';
 import { VirtualizedTranscriptView } from '@/components/VirtualizedTranscriptView';
 import { TranscriptButtonGroup } from './TranscriptButtonGroup';
+import { SpeakerPanel } from './SpeakerPanel';
 import { useMemo } from 'react';
 
 interface TranscriptPanelProps {
@@ -61,6 +62,8 @@ export function TranscriptPanel({
       endTime: t.audio_end_time,
       text: t.text,
       confidence: t.confidence,
+      speaker: t.speaker,
+      speaker_name: t.speaker_name,
     }));
   }, [transcripts, usePagination, segments]);
 
@@ -77,6 +80,8 @@ export function TranscriptPanel({
           onRefetchTranscripts={onRefetchTranscripts}
         />
       </div>
+
+      {meetingId && meetingFolderPath && <SpeakerPanel key={meetingId} meetingId={meetingId} onRefresh={onRefetchTranscripts} />}
 
       {/* Transcript content - use virtualized view for better performance */}
       <div className="flex-1 overflow-hidden pb-4">

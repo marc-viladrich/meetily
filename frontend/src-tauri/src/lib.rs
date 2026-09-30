@@ -50,6 +50,7 @@ pub mod groq;
 pub mod openrouter;
 pub mod parakeet_engine;
 pub mod state;
+pub mod speakers;
 pub mod summary;
 pub mod tray;
 pub mod utils;
@@ -584,6 +585,7 @@ pub fn run() {
                 database::setup::initialize_database_on_startup(&_app.handle()).await
             })
             .expect("Failed to initialize database");
+            speakers::initialize(_app.handle().clone());
 
             // Initialize bundled templates directory for dynamic template discovery
             log::info!("Initializing bundled templates directory...");
@@ -801,6 +803,13 @@ pub fn run() {
             audio::permissions::request_screen_recording_permission_command,
             audio::permissions::trigger_system_audio_permission_command,
             // Database import commands
+            speakers::get_speaker_settings,
+            speakers::save_speaker_preferences,
+            speakers::analyze_meeting_speakers,
+            speakers::get_speaker_job,
+            speakers::get_meeting_speakers,
+            speakers::rename_meeting_speaker,
+            speakers::get_teams_audio_status,
             database::commands::check_first_launch,
             database::commands::select_legacy_database_path,
             database::commands::detect_legacy_database,

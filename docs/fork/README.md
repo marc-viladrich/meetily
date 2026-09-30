@@ -2,7 +2,9 @@
 
 Stand: 30. September 2026. Ausgangspunkt: `Zackriya-Solutions/meetily`, `main` bei `a2cb62e827da7ef59f65064c97233efb2313878e` (Release 0.4.1).
 
-Fork: `marc-viladrich/meetily`. `origin` zeigt auf den Fork, `upstream` auf das Original. `main` bleibt die ursprüngliche Basis; `marc/meeting-transcripts` enthält unsere Ergänzungen als reguläre Commits. Alle Änderungen dieses ersten Schritts liegen in zusätzlichen Werkzeugen, Dokumentation, einer eigenen Test-Workflow-Datei und Ignore-Regeln. Es wurden keine fremden Feature-PRs pauschal gemergt.
+Die Sprecherzuordnung ist inzwischen auch in der nativen App integriert: [Bedienung, Grenzen und Build](native-app.md). Transkription und Zusammenfassungen verwenden die vorhandenen Meetily-Engines. Das CLI bleibt optional.
+
+Fork: `marc-viladrich/meetily`. `origin` zeigt auf den Fork, `upstream` auf das Original. `main` bleibt die ursprüngliche Basis; `marc/meeting-transcripts` enthält unsere Ergänzungen als reguläre Commits. Die Änderungen des ursprünglichen CLI-Schritts liegen in zusätzlichen Werkzeugen, Dokumentation, einer eigenen Test-Workflow-Datei und Ignore-Regeln. Es wurden keine fremden Feature-PRs pauschal gemergt.
 
 ## Ergebnis der PR-Prüfung
 
@@ -38,9 +40,9 @@ Es wurden nicht sämtliche tausend Forks einzeln gescannt. Die Prüfung konzentr
 
 Der erste Arbeitsablauf ist **Meetily-Aufnahme → lokale Nachverarbeitung → geprüftes Transkript/Protokoll**. Das unabhängige Werkzeug nutzt sherpa-onnx für Segmentierung und Clustering und Parakeet v3 für Wortzeitstempel. Es ist kein neuer FastAPI-Backend-Server und verwendet nicht das archivierte `backend/`.
 
-Die Alternative wäre eine native Übernahme von #809 oder #511 mit Änderungen an Live-Worker, Sitzungszustand, SQLite, Import, Recovery und mehreren UI-Ansichten. Das erhöht die Fläche für Upstream-Konflikte und löst die derzeitigen Modell-/Importprobleme nicht automatisch. Der separate Pfad ist für den ersten überprüfbaren Stand kleiner und funktioniert auch mit einem unveränderten Community-Binary. Eine spätere native Oberfläche kann dieselben versionierten JSON-Ergebnisse konsumieren.
+Die Alternative wäre eine native Übernahme von #809 oder #511 mit Änderungen an Live-Worker, Sitzungszustand, SQLite, Import, Recovery und mehreren UI-Ansichten. Das erhöht die Fläche für Upstream-Konflikte und löst die derzeitigen Modell-/Importprobleme nicht automatisch. Der separate Pfad ist für den ersten überprüfbaren Stand kleiner und funktioniert auch mit einem unveränderten Community-Binary. Der inzwischen ergänzte native Pfad nutzt stattdessen die vorhandenen Meetily-Transkripte und ergänzt deren SQLite-Sprecherfelder; siehe [Native App](native-app.md).
 
-Transcript-JSON ist das Quellartefakt. Markdown und HTML sind daraus abgeleitet. Sprecherbenennungen werden separat gespeichert. Inferenz-Cache-Schlüssel enthalten Audiohash, Modellprüfsummen, Runtime-/Pipelineversion und Analyseparameter; Summary-Cache-Schlüssel zusätzlich Prompt, Schema, Endpunkt, Modellversion und benannte Quellzeilen. Betriebssystem-Sperren lösen sich nach einem Prozessabbruch. Einzeldateien werden atomar ersetzt; Wiederholung rendert einen eventuell unterbrochenen Export fertig.
+Für das optionale CLI ist Transcript-JSON das Quellartefakt. Für die App bleibt Meetilys SQLite-Datenbank maßgeblich. Markdown und HTML sind daraus abgeleitet. Sprecherbenennungen werden separat gespeichert. Inferenz-Cache-Schlüssel enthalten Audiohash, Modellprüfsummen, Runtime-/Pipelineversion und Analyseparameter; Summary-Cache-Schlüssel zusätzlich Prompt, Schema, Endpunkt, Modellversion und benannte Quellzeilen. Betriebssystem-Sperren lösen sich nach einem Prozessabbruch. Einzeldateien werden atomar ersetzt; Wiederholung rendert einen eventuell unterbrochenen Export fertig.
 
 ## Upstream aktualisieren
 

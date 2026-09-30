@@ -1,0 +1,16 @@
+{
+  "bundle": {
+    "resources": [
+      "templates/*.json",
+      "resources/speaker-engine/*"
+    ],
+    "createUpdaterArtifacts": false
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/marc-viladrich/meetily/releases/latest/download/latest.json"
+      ]
+    }
+  }
+}

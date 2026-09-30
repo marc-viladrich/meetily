@@ -81,3 +81,6 @@ frontend/src-tauri/binaries/
 .venv-meeting-notes/
 .local-meeting-notes/
 __pycache__/
+
+# Generated native inference bundle (prepare.py verifies pinned downloads)
+frontend/src-tauri/resources/speaker-engine/

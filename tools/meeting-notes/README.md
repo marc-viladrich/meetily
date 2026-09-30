@@ -1,6 +1,8 @@
 # Lokale Meetingtranskripte mit Sprecherzuordnung
 
-Diese Ergänzung verarbeitet ein **abgeschlossenes Meetily-Meeting oder eine Audiodatei** vollständig lokal. Sie ergänzt die Community Edition als separates Werkzeug; die Meetily-Oberfläche und ihre SQLite-Datenbank werden nicht verändert.
+Die App-Integration ist unter [Native App](../../docs/fork/native-app.md) beschrieben. Für die normale Meetily-Bedienung brauchst du dieses optionale CLI nicht.
+
+Dieses CLI verarbeitet ein **abgeschlossenes Meetily-Meeting oder eine Audiodatei** vollständig lokal. Es ergänzt die Community Edition als separates Werkzeug; die Meetily-Oberfläche und ihre SQLite-Datenbank werden nicht verändert.
 
 Auf Marcs M1 eingerichtet: Meetily 0.4.1 in `/Applications/meetily.app`, Python-Umgebung und Modelle im lokalen Checkout. Für Transkription und Sprecherzuordnung ist nach dem Setup keine Internetverbindung erforderlich.
 

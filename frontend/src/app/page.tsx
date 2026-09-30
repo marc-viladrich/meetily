@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { SpeakerSettings } from '@/components/SpeakerSettings';
 import { RecordingControls } from '@/components/RecordingControls';
 import { useSidebar } from '@/components/Sidebar/SidebarProvider';
 import { usePermissionCheck } from '@/hooks/usePermissionCheck';
@@ -224,7 +225,8 @@ export default function Home() {
                   marginLeft: sidebarCollapsed ? '4rem' : '16rem'
                 }}
               >
-                <div className="w-2/3 max-w-[750px] flex justify-center">
+                <div className="w-2/3 max-w-[750px] flex flex-col items-center gap-2">
+                  {!recordingState.isRecording && <SpeakerSettings compact />}
                   <div className="bg-white rounded-full shadow-lg flex items-center">
                     <RecordingControls
                       isRecording={recordingState.isRecording}

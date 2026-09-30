@@ -137,6 +137,8 @@ pub struct MeetingTranscript {
     pub audio_end_time: Option<f64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub duration: Option<f64>,
+    pub speaker: Option<String>,
+    pub speaker_name: Option<String>,
 }
 
 /// Meeting metadata without transcripts (for pagination)
@@ -878,6 +880,8 @@ pub async fn api_get_meeting_transcripts<R: Runtime>(
                     audio_start_time: t.audio_start_time,
                     audio_end_time: t.audio_end_time,
                     duration: t.duration,
+                    speaker: t.speaker,
+                    speaker_name: t.speaker_name,
                 })
                 .collect::<Vec<_>>();
 
@@ -982,6 +986,7 @@ pub async fn api_save_transcript<R: Runtime>(
     .await
     {
         Ok(meeting_id) => {
+            crate::speakers::after_save(_app.clone(), meeting_id.clone());
             log_info!(
                 "Successfully saved transcript and created meeting with id: {}",
                 meeting_id

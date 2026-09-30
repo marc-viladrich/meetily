@@ -1,3 +1,4 @@
+import { transcriptSpeakerText } from '@/lib/transcript-speakers';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import {
   CancelSummaryResponse,
@@ -444,7 +445,7 @@ export function useSummaryGeneration({
 
     return {
       transcriptText: allTranscripts
-        .map((transcript) => `${formatTime(transcript.audio_start_time, transcript.timestamp)} ${transcript.text}`)
+        .map((transcript) => `${formatTime(transcript.audio_start_time, transcript.timestamp)} ${transcriptSpeakerText(transcript)}`)
         .join('\n'),
       transcriptTexts: allTranscripts.map((transcript) => transcript.text),
     };

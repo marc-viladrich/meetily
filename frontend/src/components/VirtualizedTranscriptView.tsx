@@ -50,19 +50,6 @@ function formatRecordingTime(seconds: number | undefined): string {
     return `[${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}]`;
 }
 
-// Helper function to remove filler words and repetitions
-function cleanStopWords(text: string): string {
-    const stopWords = ['uh', 'um', 'er', 'ah', 'hmm', 'hm', 'eh', 'oh'];
-
-    let cleanedText = text;
-    stopWords.forEach(word => {
-        const pattern = new RegExp(`\\b${word}\\b[,\\s]*`, 'gi');
-        cleanedText = cleanedText.replace(pattern, ' ');
-    });
-
-    return cleanedText.replace(/\s+/g, ' ').trim();
-}
-
 // Memoized transcript segment component
 const TranscriptSegment = memo(function TranscriptSegment({
     id,
@@ -71,6 +58,7 @@ const TranscriptSegment = memo(function TranscriptSegment({
     confidence,
     isStreaming,
     showConfidence,
+    speaker,
 }: {
     id: string;
     timestamp: number;
@@ -78,8 +66,9 @@ const TranscriptSegment = memo(function TranscriptSegment({
     confidence?: number;
     isStreaming: boolean;
     showConfidence: boolean;
+    speaker?: string | null;
 }) {
-    const displayText = cleanStopWords(text) || (text.trim() === '' ? '[Silence]' : text);
+    const displayText = text.trim() === '' ? '[Silence]' : text;
 
     return (
         <div id={`segment-${id}`} className="mb-3">
@@ -97,6 +86,7 @@ const TranscriptSegment = memo(function TranscriptSegment({
                     </TooltipContent>
                 </Tooltip>
                 <div className="flex-1">
+                    {speaker && <p className="text-xs font-semibold text-blue-700 mb-1">{speaker}</p>}
                     {isStreaming ? (
                         <div className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2">
                             <p className="text-base text-gray-800 leading-relaxed">{displayText}</p>
@@ -294,6 +284,7 @@ export const VirtualizedTranscriptView: React.FC<VirtualizedTranscriptViewProps>
                                         timestamp={segment.timestamp}
                                         text={getDisplayText(segment)}
                                         confidence={segment.confidence}
+                                        speaker={segment.speaker_name ?? segment.speaker}
                                         isStreaming={isStreaming}
                                         showConfidence={showConfidence}
                                     />
@@ -350,6 +341,7 @@ export const VirtualizedTranscriptView: React.FC<VirtualizedTranscriptViewProps>
                                         timestamp={segment.timestamp}
                                         text={getDisplayText(segment)}
                                         confidence={segment.confidence}
+                                        speaker={segment.speaker_name ?? segment.speaker}
                                         isStreaming={isStreaming}
                                         showConfidence={showConfidence}
                                     />
